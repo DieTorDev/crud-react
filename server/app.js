@@ -27,7 +27,7 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/', async (req, res) => {
-	const newUser = { id: v4(), ...req.body };
+	const newUser = { userId: v4(), ...req.body };
 	try {
 		const data = await fsPromises.readFile(filePath);
 		const jsonData = await JSON.parse(data);
@@ -47,7 +47,7 @@ app.patch('/:id', async (req, res) => {
 		const jsonData = await JSON.parse(data);
 
 		const updateUsers = jsonData.map(user => {
-			if (user.id === id) {
+			if (user.userId === id) {
 				return { ...user, ...req.body };
 			}
 
@@ -71,7 +71,6 @@ app.delete('/:id', async (req, res) => {
 
 		const updateUsers = jsonData.filter(user => user.userId !== id);
 		fsPromises.writeFile(filePath, JSON.stringify(updateUsers));
-		console.log(updateUsers);
 		res.send(updateUsers);
 	} catch (err) {
 		console.log(err);
