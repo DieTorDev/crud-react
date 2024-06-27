@@ -1,13 +1,12 @@
-import { BrowserRouter } from 'react-router-dom';
+import Form from './components/Form/Form';
 import { GlobalStyles } from './styles/GlobalStyles';
-import Router from './router/Router';
 
 const App = () => {
 	return (
-		<BrowserRouter>
+		<>
 			<GlobalStyles />
-			<Router />
-		</BrowserRouter>
+			<Form />
+		</>
 	);
 };
 
