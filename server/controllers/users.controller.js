@@ -1,21 +1,11 @@
-const express = require('express');
-const { v4 } = require('uuid');
-const app = express();
-
 const fsPromises = require('fs/promises');
 const path = require('path');
-const cors = require('cors');
+const { v4 } = require('uuid');
+const filePath = path.resolve(__dirname, '../data/users.json');
 
-const port = 8000;
+const usersController = {};
 
-app.use(cors());
-app.use(express.json());
-
-const filePath = path.resolve(__dirname, 'data/users.json');
-
-console.log(filePath);
-
-app.get('/', async (req, res) => {
+usersController.getAllUsers = async (req, res) => {
 	try {
 		const data = await fsPromises.readFile(filePath);
 		const jsonData = await JSON.parse(data);
@@ -24,9 +14,9 @@ app.get('/', async (req, res) => {
 		console.log(err);
 	}
 	res.end();
-});
+};
 
-app.post('/', async (req, res) => {
+usersController.postNewUser = async (req, res) => {
 	const newUser = { userId: v4(), ...req.body };
 	try {
 		const data = await fsPromises.readFile(filePath);
@@ -38,9 +28,9 @@ app.post('/', async (req, res) => {
 		console.log(err);
 	}
 	res.end();
-});
+};
 
-app.patch('/:id', async (req, res) => {
+usersController.patchUsers = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const data = await fsPromises.readFile(filePath);
@@ -61,9 +51,9 @@ app.patch('/:id', async (req, res) => {
 	}
 
 	res.end();
-});
+};
 
-app.delete('/:id', async (req, res) => {
+usersController.deleteUsers = async (req, res) => {
 	const { id } = req.params;
 	try {
 		const data = await fsPromises.readFile(filePath);
@@ -76,9 +66,6 @@ app.delete('/:id', async (req, res) => {
 		console.log(err);
 	}
 	res.end();
-});
+};
 
-// Iniciar el servidor
-app.listen(port, () => {
-	console.log(`El servidor esta funcionando en el puerto ${port}`);
-});
+module.exports = usersController;

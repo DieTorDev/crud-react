@@ -42,7 +42,6 @@ const Form = () => {
 				/>
 				<input type='submit' value='Edit User' />
 			</StyledForm>
-
 			<StyledForm onSubmit={e => deleteUsers(e, setUsers, newUser, userId)}>
 				<input
 					onInput={e => setUserId(e.target.value)}
@@ -66,7 +65,7 @@ const Form = () => {
 
 const fetchUsers = async setUsers => {
 	try {
-		const response = await fetch('http://localhost:8000');
+		const response = await fetch('http://localhost:8000/api/users');
 		const json = await response.json();
 		setUsers(json);
 	} catch (err) {
@@ -77,7 +76,7 @@ const fetchUsers = async setUsers => {
 const postUsers = async (event, setUsers, newUser) => {
 	event.preventDefault();
 	try {
-		const response = await fetch('http://localhost:8000', {
+		const response = await fetch('http://localhost:8000/api/users', {
 			method: 'POST',
 			body: JSON.stringify(newUser),
 			headers: {
@@ -97,7 +96,7 @@ const patchUsers = async (event, setUsers, newUser, userId) => {
 	event.preventDefault();
 	console.log(userId);
 	try {
-		const response = await fetch(`http://localhost:8000/${userId}`, {
+		const response = await fetch(`http://localhost:8000/api/users/${userId}`, {
 			method: 'PATCH',
 			body: JSON.stringify(newUser),
 			headers: {
@@ -117,7 +116,7 @@ const deleteUsers = async (event, setUsers, newUser, userId) => {
 	event.preventDefault();
 	console.log(userId);
 	try {
-		const response = await fetch(`http://localhost:8000/${userId}`, {
+		const response = await fetch(`http://localhost:8000/api/users/${userId}`, {
 			method: 'DELETE',
 			body: JSON.stringify(newUser),
 			headers: {
